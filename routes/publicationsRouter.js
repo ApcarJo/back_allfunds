@@ -37,7 +37,7 @@ router.get('/archived', async(req, res) => {
     }
 });
 
-router.put('/', authUser, async (req,res) => {
+router.put('/', async (req, res) => {
     try{
         const bodyData = req.body;
         res.json(await publicationController.updatePublication(bodyData)); 

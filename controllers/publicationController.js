@@ -66,7 +66,8 @@ class Exchange {
                 description: body.description,
                 isArchived: body.isArchived,
                 date: body.date,
-                archivedDate: new Date(),
+                archivedDate: body.archiveDate
+
             },
             { new: true, omitUndefined: true }
         )

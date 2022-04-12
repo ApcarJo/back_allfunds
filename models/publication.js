@@ -30,7 +30,7 @@ const publicationSchema = new Schema({
     },
 
     archiveDate: {
-        type: String,
+        type: Date,
         required: false
     },
 
