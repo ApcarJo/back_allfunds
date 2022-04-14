@@ -18,7 +18,7 @@ router.get('/', async(req, res) => {
 });
 
 
-router.post('/', authUser, async(req, res) => {
+router.post('/', async(req, res) => {
     try {
         const publication = req.body;
         res.json(await publicationController.createPublication(publication))
@@ -40,7 +40,7 @@ router.get('/archived', async(req, res) => {
     }
 });
 
-router.put('/', authUser, async (req, res) => {
+router.put('/', async (req, res) => {
     try{
         const bodyData = req.body;
         res.json(await publicationController.updatePublication(bodyData)); 
@@ -51,7 +51,7 @@ router.put('/', authUser, async (req, res) => {
     }
 })
 
-router.delete('/', authUser, async (req, res) => {
+router.delete('/', async (req, res) => {
     try {
         const id = req.body.id;
         res.json(await publicationController.deletePublication(id));
