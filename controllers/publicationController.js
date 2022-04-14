@@ -43,6 +43,36 @@ class Exchange {
         return res.paginatedResults;
     }
 
+    async findAllArchivedPublications(page, limit, isArchived) {
+        const startIndex = (page - 1) * limit
+        const endIndex = page * limit
+        const results = {}
+
+
+        if (endIndex < await Publication.countDocuments({isArchived: isArchived}).exec()) {
+            results.next = {
+                page: page + 1,
+                limit: limit
+            }
+        }
+
+        if (startIndex > 0) {
+            results.previous = {
+                page: page - 1,
+                limit: limit
+            }
+        }
+        results.count = await Publication.countDocuments({isArchived: isArchived}).exec();
+        
+        try {
+            results.results = await Publication.find({ isArchived: isArchived }).sort({archiveDate: -1}).limit(limit).skip(startIndex).exec()
+            res.paginatedResults = results
+        } catch (e) {
+            res.status(500).json({ message: e.message })
+        }
+        return res.paginatedResults;
+    }
+
     async updatePublication(body) {
         return Publication.findByIdAndUpdate(
             { _id: body.id },
@@ -53,7 +83,7 @@ class Exchange {
                 description: body.description,
                 isArchived: body.isArchived,
                 date: body.date,
-                archivedDate: body.archiveDate
+                archiveDate: body.archiveDate
 
             },
             { new: true, omitUndefined: true }

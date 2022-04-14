@@ -30,9 +30,12 @@ router.post('/', async(req, res) => {
 });
 
 
-router.get('/archived', authUser, async(req, res) => {
+router.get('/archived', async(req, res) => {
     try {
-        res.json(await publicationController.showArchived())
+        const page = parseInt(req.query.page);
+        const limit = parseInt(req.query.limit);
+        const isArchived = req.query.isArchived;
+        res.json(await publicationController.findAllArchivedPublications(page, limit, isArchived))
     } catch (err) {
         return res.status(500).json({
             message: err.message
