@@ -8,7 +8,8 @@ router.get('/', async(req, res) => {
     try {
         const page = parseInt(req.query.page);
         const limit = parseInt(req.query.limit);
-        res.json(await publicationController.findAllActivePublications(page, limit))
+        const isArchived = req.query.isArchived;
+        res.json(await publicationController.findAllActivePublications(page, limit, isArchived))
     } catch (err) {
         return res.status(500).json({
             message: err.message
@@ -17,7 +18,7 @@ router.get('/', async(req, res) => {
 });
 
 
-router.post('/', async(req, res) => {
+router.post('/', authUser, async(req, res) => {
     try {
         const publication = req.body;
         res.json(await publicationController.createPublication(publication))
@@ -39,7 +40,7 @@ router.get('/archived', async(req, res) => {
     }
 });
 
-router.put('/', async (req, res) => {
+router.put('/', authUser, async (req, res) => {
     try{
         const bodyData = req.body;
         res.json(await publicationController.updatePublication(bodyData)); 
@@ -50,7 +51,7 @@ router.put('/', async (req, res) => {
     }
 })
 
-router.delete('/', async (req, res) => {
+router.delete('/', authUser, async (req, res) => {
     try {
         const id = req.body.id;
         res.json(await publicationController.deletePublication(id));

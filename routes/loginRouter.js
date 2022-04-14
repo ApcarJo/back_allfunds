@@ -3,8 +3,6 @@ const router = require('express').Router();
 const loginController = require('../controllers/loginController.js');
 const userController = require('../controllers/userController.js');
 
-// USER ROUTE FOR LOGIN
-
 router.post('/', async (req, res) => {
     try {
         const mailCheck = req.body.email;
