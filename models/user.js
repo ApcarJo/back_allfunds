@@ -18,7 +18,7 @@ const userSchema = new Schema({
 });
 
 const toJSONConfig = {
-    transform: (ret) => {
+    transform: (doc, ret, opt) => {
         delete ret['password']
         return ret
     }
