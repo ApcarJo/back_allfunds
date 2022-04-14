@@ -6,7 +6,9 @@ const authUser = require("../middleware/authUser.js");
 
 router.get('/', async(req, res) => {
     try {
-        res.json(await publicationController.findAllActivePublications())
+        const page = parseInt(req.query.page);
+        const limit = parseInt(req.query.limit);
+        res.json(await publicationController.findAllActivePublications(page, limit))
     } catch (err) {
         return res.status(500).json({
             message: err.message
